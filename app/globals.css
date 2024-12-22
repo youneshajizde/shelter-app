@@ -1,21 +1,188 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "leaflet/dist/leaflet.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  /* Apply Inter font here */
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
+.house-info {
+  box-sizing: border-box;
+}
+.slick-slide {
+  padding: 0 10px; /* Adjust the gap as needed */
+}
+
+.slick-list {
+  margin: 0 -10px; /* Negate padding to keep alignment */
+}
+.slick-dots {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  bottom: 10px; /* Adjust if needed */
+  position: absolute;
+}
+
+/* Styling arrows */
+.slick-arrow {
+  z-index: 10; /* Ensure it's on top */
+}
+
+.slick-prev {
+  left: 10px;
+}
+
+.slick-next {
+  right: 10px;
+}
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-gray-400 {
+  scrollbar-color: gray #f0f0f0;
+}
+
+.navbar-links-big-screen {
+  @apply hidden md:flex flex-wrap justify-center gap-7 text-gray-300 font-medium text-xs uppercase mt-4;
+}
+
+.navbar-links-small-screen {
+  @apply md:hidden flex flex-wrap justify-center gap-4 text-gray-300 font-medium text-xs uppercase mt-4;
+}
+
+.stacked-images {
+  @apply rounded-full border-2 border-white w-16 h-16 object-cover;
+}
+
+.statistics-style {
+  @apply rounded-full bg-stone-900 h-[70px] text-white font-medium text-2xl flex items-center justify-between px-5;
+}
+
+.double-divs-style {
+  @apply rounded-3xl w-full h-[200px] bg-blue-600 relative;
+}
+
+.houses-container {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-10;
+}
+
+.overlay-div {
+  @apply absolute bottom-0 left-0 right-0 h-16 md:h-24 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none;
+}
+
+.shelter-offer-description {
+  @apply absolute bottom-2 left-2 right-2 md:bottom-4 md:left-4 md:right-4 text-white flex justify-between items-center text-sm md:text-base lg:text-xl;
+}
+
+.about-style {
+  @apply relative w-full min-h-[50vh] md:min-h-[370px] md:h-[400px] rounded-3xl overflow-hidden;
+}
+
+.category-style {
+  @apply cursor-pointer hover:bg-stone-700 border-[1px] border-stone-700 text-xs md:text-sm hover:text-white font-medium rounded-2xl px-3 py-2;
+}
+
+.product-skeleton-container {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-10;
+}
+
+.property-main-page {
+  @apply grid grid-cols-1 md:grid-cols-2 w-[90%] mx-auto gap-10 mt-24;
+}
+.hover-trigger-style {
+  @apply flex items-center gap-2 cursor-pointer text-white bg-stone-800 rounded-full px-4 py-3 w-64;
+}
+
+.two-property-below-images {
+  @apply w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110;
+}
+
+.main-property-images {
+  @apply w-full h-full object-cover rounded-3xl transform transition-transform duration-300 group-hover:scale-110;
+}
+
+.checkout-steps {
+  @apply text-sm text-gray-500 font-medium flex items-center justify-center gap-10 text-center w-full cursor-pointer;
+}
+
+.product-detail-style {
+  @apply space-y-4 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 pr-2;
+}
+
+.summary-row {
+  @apply flex justify-between text-gray-700 mb-4;
+}
+
+.input-shipping-style {
+  @apply w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600;
 }
